@@ -13,7 +13,6 @@ class CustomStringField(serializers.CharField):
         if not isinstance(data,str):
             raise serializers.ValidationError("Data Entered should be string type")
         
-
         data = data.upper()
         
         return super().run_validation(data)
