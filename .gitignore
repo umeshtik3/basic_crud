@@ -1,0 +1,7 @@
+**/*.pyc
+*.pyc
+.gitignore
+basic_crud/__pycache__/settings.cpython-311.pyc
+basic_crud/__pycache__/urls.cpython-311.pyc
+basicapp/__pycache__/function_based_view.cpython-311.pyc
+basicapp/__pycache__/models.cpython-311.pyc

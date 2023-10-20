@@ -20,9 +20,9 @@ from basicapp import function_based_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('get_all_emps',function_based_view.all_employee),
-    path('get_emp/<int:id>',function_based_view.get_employee),
-    path('create_emp',function_based_view.create_employee),
-    path('update_emp/<int:id>',function_based_view.update_employee),
-    path('delete_emp/<int:id>',function_based_view.delete_employee),
+    path('get_all_emps',function_based_view.all_employee,name='all-employees'),
+    path('get_emp/<int:id>',function_based_view.get_employee,name='get-employee'),
+    path('create_emp',function_based_view.create_employee,name='create-employee'),
+    path('update_emp/<int:id>',function_based_view.update_employee,name='update-employee'),
+    path('delete_emp/<int:id>',function_based_view.delete_employee,name='delete-employee'),
 ]
