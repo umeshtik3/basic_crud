@@ -26,3 +26,9 @@ class EmployeeSerializer(serializers.Serializer):
     class Meta:
         model = Employee
         fields = "__all__"
+    
+    def create(self,validated_data):
+        """
+        Create and return a new instance of YourModel, given the validated data.
+        """
+        return Employee.objects.create(**validated_data)
