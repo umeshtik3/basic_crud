@@ -32,3 +32,13 @@ class EmployeeSerializer(serializers.Serializer):
         Create and return a new instance of YourModel, given the validated data.
         """
         return Employee.objects.create(**validated_data)
+    
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get("name")
+        instance.designation = validated_data.get("designation")
+        instance.department = validated_data.get("department")
+        instance.save()
+
+        return instance
+    
+    

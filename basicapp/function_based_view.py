@@ -42,9 +42,46 @@ def create_employee(request):
             all_employees = Employee.objects.all()
             employee_serializer = EmployeeSerializer(all_employees,many =True)
             json_data = JSONRenderer().render(employee_serializer.data)
-            # json_data = JSONRenderer().render(employee_serializer.data)
         else:
             json_data = JSONRenderer().render(employee_serializer.error_messages)
 
         return HttpResponse(json_data,content_type= 'application/json')
     
+
+@csrf_exempt
+def update_employee(request,id):
+    if request.method == 'PUT':
+        json_data = request.body
+        stream = io.BytesIO(json_data)
+        python_data = JSONParser().parse(stream)
+    
+        employee = Employee.objects.get(emp_id= id)
+        employee_serializer = EmployeeSerializer(employee,data=python_data,partial=True)
+
+        if employee_serializer.is_valid():
+            employee_serializer.save()
+            all_employees = Employee.objects.all()
+            employee_serializer = EmployeeSerializer(all_employees,many =True)
+            json_data = JSONRenderer().render(employee_serializer.data)
+        else:
+            json_data = JSONRenderer().render(employee_serializer.error_messages)
+
+        return HttpResponse(json_data,content_type= 'application/json')
+    
+
+@csrf_exempt
+def delete_employee(request,id):
+    if request.method == 'DELETE':
+      
+    
+        employee = Employee.objects.get(emp_id=id)
+        employee.delete()
+
+        response = {
+            'msg':'Data deleted successfully'
+        }
+
+       
+        json_data = JSONRenderer().render(response)
+       
+        return HttpResponse(json_data,content_type= 'application/json')
