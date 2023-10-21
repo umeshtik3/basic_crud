@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from rest_framework.fields import empty
 from basicapp.models import Employee
 
 
@@ -26,3 +25,14 @@ class EmployeeSerializer(serializers.Serializer):
     class Meta:
         model = Employee
         fields = "__all__"
+
+    def create(self, validated_data):
+        return Employee.objects.create(**validated_data)
+    
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get("name")
+        instance.designation = validated_data.get("designation")
+        instance.department = validated_data.get("department")
+        instance.save()
+
+        return instance
