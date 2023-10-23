@@ -2,7 +2,7 @@ from django.shortcuts import HttpResponse
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from .models import Employee
-from .emp_serializer import EmployeeSerializer
+from .emp_serializer import EmployeeSerializer, EmployeeModelSerializer
 from django.views.decorators.csrf import csrf_exempt
 import io
 
@@ -11,7 +11,7 @@ import io
 def all_employee(request):
     if request.method == 'GET':
         all_employees = Employee.objects.all()
-        employee_serializer = EmployeeSerializer(all_employees,many =True)
+        employee_serializer = EmployeeModelSerializer(all_employees,many =True)
         json_data = JSONRenderer().render(employee_serializer.data)
 
         return HttpResponse(json_data,content_type= 'application/json')
@@ -23,7 +23,7 @@ def all_employee(request):
 def get_employee(request,id):
     if request.method == 'GET':
         employee = Employee.objects.get(emp_id= id)
-        employee_serializer = EmployeeSerializer(employee)
+        employee_serializer = EmployeeModelSerializer(employee)
         json_data = JSONRenderer().render(employee_serializer.data)
 
         return HttpResponse(json_data,content_type= 'application/json')
@@ -36,11 +36,11 @@ def create_employee(request):
         stream = io.BytesIO(json_data)
         python_data = JSONParser().parse(stream)
      
-        employee_serializer = EmployeeSerializer(data=python_data)
+        employee_serializer = EmployeeModelSerializer(data=python_data)
         if employee_serializer.is_valid():
             employee_serializer.save()
             all_employees = Employee.objects.all()
-            employee_serializer = EmployeeSerializer(all_employees,many =True)
+            employee_serializer = EmployeeModelSerializer(all_employees,many =True)
             json_data = JSONRenderer().render(employee_serializer.data)
         else:
             json_data = JSONRenderer().render(employee_serializer.error_messages)
@@ -56,12 +56,12 @@ def update_employee(request,id):
         python_data = JSONParser().parse(stream)
     
         employee = Employee.objects.get(emp_id= id)
-        employee_serializer = EmployeeSerializer(employee,data=python_data,partial=True)
+        employee_serializer = EmployeeModelSerializer(employee,data=python_data,partial=True)
 
         if employee_serializer.is_valid():
             employee_serializer.save()
             all_employees = Employee.objects.all()
-            employee_serializer = EmployeeSerializer(all_employees,many =True)
+            employee_serializer = EmployeeModelSerializer(all_employees,many =True)
             json_data = JSONRenderer().render(employee_serializer.data)
         else:
             json_data = JSONRenderer().render(employee_serializer.error_messages)
