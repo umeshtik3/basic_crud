@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 import io
 
 
-@csrf_exempt
+@csrf_exempt # read about csrf_exempt
 def all_employee(request):
     if request.method == 'GET':
         all_employees = Employee.objects.all()
