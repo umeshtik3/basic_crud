@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.serializers import ValidationError
 from rest_framework.fields import empty
 from basicapp.models import Employee, Department
 
@@ -48,12 +49,14 @@ def character_less_than_8(value):
 
 class EmployeeModelSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=100,validators=[character_less_than_8])
-    
-
+    department = serializers.CharField(max_length=100)
 
     def validate_department(self,value):
+        print("valluee", value)
         if value not in [department.name for department in Department]:
-            raise serializers.ValidationError(f"Invalid department value '{value}'. Please contact your admin.")
+            print("insideeeeeee")
+            raise ValidationError("something went wrong")
+            # return value
         else:
             return value
     class Meta:

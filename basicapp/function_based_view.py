@@ -2,7 +2,7 @@ from django.shortcuts import HttpResponse
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from .models import Employee
-from .emp_serializer import EmployeeSerializer, EmployeeModelSerializer
+from .emp_serializer import  EmployeeModelSerializer
 from django.views.decorators.csrf import csrf_exempt
 import io
 
@@ -43,7 +43,7 @@ def create_employee(request):
             employee_serializer = EmployeeModelSerializer(all_employees,many =True)
             json_data = JSONRenderer().render(employee_serializer.data)
         else:
-            json_data = JSONRenderer().render(employee_serializer.error_messages)
+            json_data = JSONRenderer().render(employee_serializer.errors)
 
         return HttpResponse(json_data,content_type= 'application/json')
     
@@ -64,7 +64,7 @@ def update_employee(request,id):
             employee_serializer = EmployeeModelSerializer(all_employees,many =True)
             json_data = JSONRenderer().render(employee_serializer.data)
         else:
-            json_data = JSONRenderer().render(employee_serializer.error_messages)
+            json_data = JSONRenderer().render(employee_serializer.errors)
 
         return HttpResponse(json_data,content_type= 'application/json')
     
